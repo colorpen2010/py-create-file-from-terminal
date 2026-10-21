@@ -12,20 +12,27 @@ def parse_arguments(arguments: list[str]) -> tuple[list[str], str | None]:
         option = arguments[index]
         if option == "-d":
             index += 1
-            while index < len(arguments) and not arguments[index].startswith("-"):
+            while (
+                index < len(arguments)
+                and not arguments[index].startswith("-")
+            ):
                 directories.append(arguments[index])
                 index += 1
             continue
         if option == "-f":
             if file_name is not None or index + 1 >= len(arguments):
-                raise ValueError("-f must be followed by one file name")
+                raise ValueError(
+                    "-f must be followed by one file name"
+                )
             file_name = arguments[index + 1]
             index += 2
             continue
         raise ValueError(f"Unknown option or misplaced argument: {option}")
 
     if not directories and file_name is None:
-        raise ValueError("Provide -d with directories, -f with a file, or both")
+        raise ValueError(
+            "Provide -d with directories, -f with a file, or both"
+        )
     return directories, file_name
 
 
@@ -67,7 +74,11 @@ def main() -> None:
     if file_name is None:
         return
 
-    file_path = os.path.join(directory_path, file_name) if directory_path else file_name
+    file_path = (
+        os.path.join(directory_path, file_name)
+        if directory_path
+        else file_name
+    )
     append_file_content(file_path, read_content_lines())
 
 
